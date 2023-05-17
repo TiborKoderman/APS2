@@ -25,16 +25,29 @@ public class binheap {
     }
 
     void insert(int key) {
+
+        //if the heap contains the key, return
+        for(int i = 0; i < heap.length; i++){
+            if(heap[i] == key){
+                return;
+            }
+        }
+
         Integer[] newHeap = new Integer[heap.length + 1];
         for (int i = 0; i < heap.length; i++) {
             newHeap[i] = heap[i];
         }
         newHeap[heap.length] = key;
         heap = newHeap;
+        
+        //fix the heap
         heapifyUp(heap.length - 1);
     }
 
     void heapifyUp(int index) {
+        if (index == 0) {
+            return;
+        }
         int parent = parent(index);
         comparisons++;
         if (heap[parent] > heap[index]) {
@@ -44,75 +57,30 @@ public class binheap {
     }
 
 
-    void delete(int key) {
-        Integer[] newHeap = new Integer[heap.length - 1];
-        int index = -1;
-        for (int i = 0; i < heap.length; i++) {
-            if (heap[i] == key) {
-                comparisons++;
-                index = i;
-                break;
-            }
-        }
-        if (index == -1) {
-            return;
-        }
-        for (int i = 0; i < index; i++) {
-            newHeap[i] = heap[i];
-        }
-        for (int i = index; i < heap.length - 1; i++) {
-            newHeap[i] = heap[i + 1];
-        }
-        heap = newHeap;
-        heapifyDown(index);
-    }
-
-    void heapifyDown(int index) {
-        int left = 2 * index + 1;
-        int right = 2 * index + 2;
-        int smallest = index;
-
-        comparisons++;
-        if (left < heap.length && heap[left] < heap[index]) {
-            smallest = left;
-        }
-
-        comparisons++;
-        if (right < heap.length && heap[right] < heap[smallest]) {
-            smallest = right;
-        }
-
-        if (smallest != index) {
-            int temp = heap[index];
-            heap[index] = heap[smallest];
-            heap[smallest] = temp;
-            heapifyDown(smallest);
-        }
-    }
-
-    // void deleteMin() {
-    //     if(heap.length > 0){
-    //         int tmp = heap[0];
-    //         delete(heap[0]);
-    //         System.out.printf("true: %d\n", tmp);
-    //         return;
-    //     }
-    //     System.out.println("false");
-    // }
-
-
     private void minHeapify(int key){
         int left = left(key);
         int right = left(key) + 1;
         int smallest = key;
 
-        comparisons++;
+        if(heap.length <= 1){
+            return;
+        }
+
+        // if there is only one child make only one comparison
+        if(left < heap.length && right >= heap.length){
+            comparisons++;
+            smallest = left;
+            minHeapify(smallest);
+            return;
+        }
+        
         if(left < heap.length && heap[left] < heap[key]){
+            comparisons++;
             smallest = left;
         }
 
-        comparisons++;
         if(right < heap.length && heap[right] < heap[smallest]){
+            comparisons++;
             smallest = right;
         }
 
@@ -170,4 +138,5 @@ public class binheap {
     void printComparisons() {
         System.out.println("COMPARISONS: " + comparisons);
     }
+
 }

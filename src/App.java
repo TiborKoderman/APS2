@@ -1,14 +1,23 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        binheap bh = new binheap();
+        bst b = new bst();
 
-        bh.insert(12); bh.insert(22); bh.insert(33);
-        bh.insert(4); bh.insert(14); bh.insert(6); bh.insert(24);
-        bh.printElements();
-        bh.printMin();
-        bh.printComparisons();
-        bh.deleteMin();
-        bh.printElements();
-        bh.printComparisons();
+        b.insert(12);
+        b.insert(22);
+        b.insert(33);
+        b.insert(4);
+        b.insert(14);
+        b.insert(6);
+        b.insert(22);
+        b.insert(33);
+        b.insert(24);
+        b.insert(17);
+        b.printPreOrder();
+        b.printInOrder();
+        b.printPostOrder();
+        b.printComparisons();
+        b.find(99);
+        b.find(17);
+        b.printComparisons();
     }
 }

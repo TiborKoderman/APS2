@@ -1,101 +1,119 @@
-// //binary search tree
+/**
+ * Node¸
+ */
+class Node {
+    int key;
+    int count; 
+    Node left, right;
+    
+    public Node(int item){
+        key = item;
+        count = 1;
+        left = right = null;
+    }
+}
 
-// public class bst {
+//binary search tree
+public class bst{
+    
+    Node root;
+    int comparisons=0;
 
-//         Node root;
+    bst(){
+        root = null;
+    }
 
-//         bst(){
-//                 root = null;
-//         }
-        
-//         void insert(int key){
-//                 if(root == null){
-//                         root = new Node(key);
-//                         return;
-//                 }
+    void insert(int key){
+        root = insertRec(root, key);
+    }
 
-//                 Node current = root;
+    Node insertRec(Node root, int key){
+        if(root == null){
+            root = new Node(key);
+            return root;
+        }
 
-//                 while(true){
-//                         if(key < current.key){
-//                                 if(current.left == null){
-//                                         current.left = new Node(key);
-//                                         return;
-//                                 }
-//                                 current = current.left;
-//                         }else{
-//                                 if(current.right == null){
-//                                         current.right = new Node(key);
-//                                         return;
-//                                 }
-//                                 current = current.right;
-//                         }
-//                 }
+        if(key < root.key){
+            comparisons++;
+            root.left = insertRec(root.left, key);
+        }else if(key > root.key){
+            comparisons++;
+            root.right = insertRec(root.right, key);
+        }else{
+            comparisons++;
+            root.count++;
+        }
 
-//         }
+        return root;
+    } 
 
-//         void delete(int key){
-//                 root = deleteRec(root, key);
-//         }
+    void printPreOrder(){
+        printPreOrderRec(root);
+        System.out.println();
+    }
 
-//         Node deleteRec(Node node, int key){
-//                 if(node == null){
-//                         return node;
-//                 }
+    void printPreOrderRec(Node root){
+        if(root != null){
+            System.out.printf("%d/%d | ", root.key, root.count);
+            printPreOrderRec(root.left);
+            printPreOrderRec(root.right);
+        }
+    }
 
-//                 if(key < node.key){
-//                         node.left = deleteRec(node.left, key);
-//                 }else if(key > node.key){
-//                         node.right = deleteRec(node.right, key);
-//                 }else{
-//                         if(node.left == null){
-//                                 return node.right;
-//                         }else if(node.right == null){
-//                                 return node.left;
-//                         }
+    void printInOrder(){
+        printInOrderRec(root);
+        System.out.println();
+    }
 
-//                         node.key = minValue(node.right);
+    void printInOrderRec(Node root){
+        if(root != null){
+            printInOrderRec(root.left);
+            System.out.printf("%d/%d | ", root.key, root.count);
+            printInOrderRec(root.right);
+        }
+    }
 
-//                         node.right = deleteRec(node.right, node.key);
-//                 }
+    void printPostOrder(){
+        printPostOrderRec(root);
+        System.out.println();
+    }
 
-//                 return node;
-//         }
+    void printPostOrderRec(Node root){
+        if(root != null){
+            printPostOrderRec(root.left);
+            printPostOrderRec(root.right);
+            System.out.printf("%d/%d | ", root.key, root.count);
+        }
+    }
 
-//         int minValue(Node node){
-//                 int minv = node.key;
-//                 while(node.left != null){
-//                         minv = node.left.key;
-//                         node = node.left;
-//                 }
-//                 return minv;
-//         }
+    void printComparisons(){
+        System.out.printf("COMPARISONS: %d\n", comparisons);
+    }
 
-//         void printPreOrder(){
-//                 printPreOrderRec(root);
-//         }
+    boolean find(int key){
+        return findRec(root, key);
+    }
 
-//         printPreOrderRec(Node node){
-//                 if(node == null){
-//                         return;
-//                 }
+    boolean findRec(Node root, int key){
+        if(root == null){
+            System.out.println("false");
+            return false;
+        }
 
-//                 System.out.println(node.key);
-//                 printPreOrderRec(node.left);
-//                 printPreOrderRec(node.right);
-//         }
-        
-// }
+        if(root.key == key){
+            comparisons++;
+            System.out.println("true");
+            return true;
+        }
 
+        comparisons++;
+        if(key < root.key){
+            return findRec(root.left, key);
+        }else{
+            return findRec(root.right, key);
+        }
+    }
 
-// class Node{
-//         int key;
-//         Node left, right;
-        
-//         public Node(int item){
-//                 key = item;
-//                 left = right = null;
-//         }
+    
 
-
-// }
+}
