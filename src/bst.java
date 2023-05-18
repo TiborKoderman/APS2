@@ -28,20 +28,24 @@ public class bst{
     }
 
     Node insertRec(Node root, int key){
+
         if(root == null){
             root = new Node(key);
+            return root;
+        }
+
+        if(key == root.key){
+            comparisons++;
+            root.count++;
             return root;
         }
 
         if(key < root.key){
             comparisons++;
             root.left = insertRec(root.left, key);
-        }else if(key > root.key){
-            comparisons++;
-            root.right = insertRec(root.right, key);
         }else{
             comparisons++;
-            root.count++;
+            root.right = insertRec(root.right, key);
         }
 
         return root;
@@ -89,6 +93,62 @@ public class bst{
     void printComparisons(){
         System.out.printf("COMPARISONS: %d\n", comparisons);
     }
+
+    void delete(int key){
+        root = deleteRec(root, key);
+    }
+
+    Node deleteRec(Node root, int key){
+        if(root == null){
+            System.out.println("false");
+            return root;
+        }
+
+        
+
+        if(key < root.key){
+            comparisons++;
+            root.left = deleteRec(root.left, key);
+        }else if(key > root.key){
+            comparisons++;
+            root.right = deleteRec(root.right, key);
+        }else{
+            if(root.count > 1){
+                root.count--;
+                System.out.println("true");
+                return root;
+            }
+
+            if(root.left == null){
+                Node temp = root.right;
+                System.out.println("true");
+                return temp;
+            }else if(root.right == null){
+                Node temp = root.left;
+                System.out.println("true");
+                return temp;
+            }
+
+            Node temp = minValueNode(root.right);
+            root.key = temp.key;
+            root.count = temp.count;
+            root.right = deleteRec(root.right, temp.key);
+        }
+
+        return root;
+    }
+
+    Node minValueNode(Node root){
+        Node current = root;
+
+        while(current.left != null){
+            current = current.left;
+        }
+
+        return current;
+    }
+
+
 
     boolean find(int key){
         return findRec(root, key);

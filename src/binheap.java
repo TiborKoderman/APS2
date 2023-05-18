@@ -20,9 +20,9 @@ public class binheap {
         return 2 * index + 1;
     }
 
-    private int right(int index) {
-        return 2 * index + 2;
-    }
+    // private int right(int index) {
+    //     return 2 * index + 2;
+    // }
 
     void insert(int key) {
 
@@ -33,6 +33,7 @@ public class binheap {
             }
         }
 
+        //expand the array by 1
         Integer[] newHeap = new Integer[heap.length + 1];
         for (int i = 0; i < heap.length; i++) {
             newHeap[i] = heap[i];
@@ -62,9 +63,9 @@ public class binheap {
         int right = left(key) + 1;
         int smallest = key;
 
-        if(heap.length <= 1){
-            return;
-        }
+        // if(heap.length <= 1){
+        //     return;
+        // }
 
         // if there is only one child make only one comparison
         if(left < heap.length && right >= heap.length){
